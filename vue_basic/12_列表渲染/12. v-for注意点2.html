@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-for</title>
+    <link rel="icon" href="../favicon.ico">
+</head>
+<body>
+<div id="root">
+<!--    在循环的过程中有条件的进行显示可以结合使用v-for 和 v-if -->
+    <ul v-for="item in arr" :key="item.id" v-if="item.done">
+        <li>{{item.msg}}</li>
+    </ul>
+
+<!--    但如果是根据条件判断是否进行循环的话先判断再循环-->
+
+    <template v-if="arr.length">
+        <ul v-for="item in arr" :key="item.id" v-if="item.done">
+            <li>{{item.msg}}</li>
+        </ul>
+    </template>
+    <template v-else>
+         <h1>NO Result!!!</h1>
+    </template>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+
+<script>
+    Vue.config.productionTip = false
+    new Vue({
+        el: "#root",
+        data: {
+            arr:[
+                {id:1 ,msg: 'A',done:true},
+                {id:2 ,msg: 'A',done:false},
+                {id:3 ,msg: 'A',done:true},
+                {id:4 ,msg: 'A',done:false},
+            ]
+
+        },
+        methods: {
+            dealArr(arr){
+                return arr.map(item =>item.toUpperCase())
+            }
+        },
+    })
+</script>
+</body>
+</html>
