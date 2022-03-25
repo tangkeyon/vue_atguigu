@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>姓名案例_watch实现</title>
+		<!-- 引入Vue -->
+		<script type="text/javascript" src="../js/vue.js"></script>
+	</head>
+	<body>
+		<!-- 
+				computed和watch之间的区别：
+						1.computed能完成的功能，watch都可以完成。
+						2.watch能完成的功能，computed不一定能完成，例如：watch可以进行异步操作。
+						3.计算属性的使用场景是某一个数据的变化依赖于其他数据的变化(通常是data内的数据)，那么我们不应该去监视每一个子数据的变化
+						  借此来修改该数据而应该直接将这个数据设置为计算属性,这样一来计算属性所依赖的数据发生变化后可获得最近的状态
+						4.监听属性一般运用在数据的变化不依赖于其他数据的变化，比如数据的变化是我们去修改的，或者数据的变化里面要进行异步操作
+						  因为计算属性的值只能通过函数返回值反映，在异步场景中不适用
+						5.监听属性可以监听计算属性，两者可以配合使用 
+						 
+				两个重要的小原则：
+							1.所被Vue管理的函数，最好写成普通函数，这样this的指向才是vm 或 组件实例对象。
+							2.所有不被Vue所管理的函数（定时器的回调函数、ajax的回调函数等、Promise的回调函数），最好写成箭头函数，
+								这样this的指向才是vm 或 组件实例对象。
+		-->
+		<!-- 准备好一个容器-->
+		<div id="root">
+			姓：<input type="text" v-model="firstName"> <br/><br/>
+			名：<input type="text" v-model="lastName"> <br/><br/>
+			全名：<span>{{fullName}}</span> <br/><br/>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		Vue.config.productionTip = false //阻止 vue 在启动时生成生产提示。
+
+		const vm = new Vue({
+			el:'#root',
+			data:{
+				firstName:'张',
+				lastName:'三',
+				fullName:'张-三'
+			},
+			watch:{
+				firstName(val){
+					setTimeout(()=>{
+						console.log(this)
+						this.fullName = val + '-' + this.lastName
+					},1000);
+				},
+				lastName(val){
+					this.fullName = this.firstName + '-' + val
+				}
+			}
+		})
+	</script>
+</html>
